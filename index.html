@@ -1,53 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeWay - Unlock Your Coding Superpowers!</title>
+    <title>CodeWay - Libère tes Superpouvoirs de Codage !</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-      /* Lucide font for mobile menu toggle icon */
       @font-face {
         font-family: 'LucideIcons';
         src: url(https://cdn.jsdelivr.net/npm/lucide-static@latest/font/Lucide.ttf) format('truetype');
       }
-      .lucide-font { /* Renamed to avoid conflict if .lucide class is used elsewhere */
+      .lucide-font {
         font-family: 'LucideIcons';
-        font-size: 1.5rem; /* Adjusted size for menu toggle */
+        font-size: 1.5rem;
         line-height: 1;
         display: inline-block;
         vertical-align: middle;
       }
 
-      /* --- Animation Keyframes (Unchanged) --- */
       @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
       @keyframes fadeInUpSlight { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes fadeInUpDramatic { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-      @keyframes floatComplex { 0% { transform: translate(0px, 0px) rotate(0deg); } 25% { transform: translate(5px, -10px) rotate(5deg); } 50% { transform: translate(-5px, -15px) rotate(-3deg); } 75% { transform: translate(3px, -5px) rotate(4deg); } 100% { transform: translate(0px, 0px) rotate(0deg); } }
       @keyframes backgroundGradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
       @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); } 50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); } }
       @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
 
-      /* Apply animations */
       .animate-fadeIn { animation: fadeIn 1s ease-out forwards; }
       .animate-fadeInUp { animation: fadeInUpDramatic 0.9s ease-out forwards; opacity: 0; }
       .animate-fadeInLeft { animation: fadeInLeft 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; opacity: 0; }
       .animate-pulse-button { animation: pulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
       .animate-gradient-bg { background-size: 200% 200%; animation: backgroundGradientShift 15s ease infinite; }
 
-      /* Marquee styles */
       .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
       .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; }
       .marquee-content > * { display: inline-block; margin-right: 4rem; vertical-align: middle; }
 
-      /* Smooth scroll behavior */
       html { scroll-behavior: smooth; }
 
-      /* Reduced motion preference */
       @media (prefers-reduced-motion: reduce) {
         *, ::before, ::after { animation-delay: -1ms !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; background-attachment: initial !important; scroll-behavior: auto !important; transition-duration: 0s !important; transition-delay: 0s !important; }
         .marquee-content, .animate-gradient-bg, .animate-pulse-button { animation: none; }
@@ -56,82 +49,517 @@
         .hover\:scale-110:hover, .hover\:-translate-y-1:hover, .hover\:scale-105:hover { transform: none !important; }
       }
 
-      /* Hero background image styling */
+      /* Hero: image background */
       #hero {
-        background-image: url('rfl/img4/img4/hero.png');
+        position: relative;
+        overflow: hidden;
+        background-image: url('photos/gallery/13.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
       }
 
-      /* Contact Section Background Image Styling */
+      /* Portrait video widget — fixed bottom-left corner, true 9:16 */
+      #portrait-video-widget {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        z-index: 200;
+        width: 240px;
+        height: 427px; /* 240 × 16/9 = 426.7px — exact 9:16 */
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+        background: #000;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+      #portrait-video-widget.hidden-widget {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(30px) scale(0.95);
+      }
+      /* Iframe oversized & shifted so Drive's video content centres in the portrait frame */
+      #portrait-video-widget iframe {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 160%;           /* taller than widget to account for Drive's player chrome */
+        transform: translate(-50%, -50%);
+        border: none;
+        display: block;
+      }
+      #portrait-video-widget .widget-close {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        line-height: 1;
+      }
+      #portrait-video-widget .widget-close:hover { background: rgba(0,0,0,0.85); }
+
+      /* Toggle tab — visible when widget is hidden */
+      #video-toggle-tab {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        z-index: 199;
+        background: #4f46e5;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 8px 14px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(79,70,229,0.4);
+        display: none;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.2s;
+      }
+      #video-toggle-tab:hover { background: #4338ca; }
+      #video-toggle-tab.visible { display: flex; }
+
       #contact {
-         background-image: url('rfl/img4/img3/2/contact.png');
+         background-image: url('photos/ud/contact.png');
          background-size: cover;
          background-position: center;
          background-repeat: no-repeat;
          position: relative;
       }
 
+      /* ---- Course Detail Page ---- */
+      #course-detail-page {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: #f8f9fb;
+        overflow-y: auto;
+        font-family: 'Inter', sans-serif;
+      }
+      #course-detail-page.active { display: block; }
+
+      /* Top bar */
+      .cd-topbar {
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 0 32px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .cd-back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #4f46e5;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: background 0.15s;
+        white-space: nowrap;
+      }
+      .cd-back-btn:hover { background: #eef2ff; }
+      .cd-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.8rem;
+        color: #9ca3af;
+      }
+      .cd-breadcrumb-active { color: #374151; font-weight: 500; }
+
+      /* Hero banner */
+      .cd-hero-banner {
+        position: relative;
+        width: 100%;
+        height: 320px;
+        overflow: hidden;
+      }
+      @media (min-width: 768px) { .cd-hero-banner { height: 400px; } }
+      .cd-hero-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .cd-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+        display: flex;
+        align-items: flex-end;
+      }
+      .cd-hero-content {
+        padding: 32px 40px;
+        max-width: 900px;
+      }
+      .cd-age-badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+        letter-spacing: 0.04em;
+      }
+      .cd-course-title {
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      /* Body layout */
+      .cd-body {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 24px 60px;
+      }
+      @media (min-width: 900px) {
+        .cd-body { grid-template-columns: 1fr 380px; align-items: start; }
+      }
+
+      /* Cards */
+      .cd-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 24px 28px;
+        margin-bottom: 20px;
+      }
+      .cd-card:last-child { margin-bottom: 0; }
+      .cd-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 16px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid #f3f4f6;
+        border-left: 4px solid #4f46e5;
+        padding-left: 12px;
+      }
+      .cd-card-header svg { opacity: 0.6; flex-shrink: 0; }
+      .cd-description-text {
+        font-size: 0.95rem;
+        color: #4b5563;
+        line-height: 1.75;
+        margin: 0;
+      }
+
+      /* TOC card (sticky on desktop) */
+      .cd-toc-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 24px 28px;
+        position: sticky;
+        top: 72px;
+      }
+      .cd-toc-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .cd-toc-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 10px 8px;
+        border-radius: 8px;
+        transition: background 0.15s;
+      }
+      .cd-toc-item:hover { background: #f9fafb; }
+      .cd-toc-num {
+        flex-shrink: 0;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        font-size: 0.7rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+      }
+      .cd-toc-text {
+        font-size: 0.88rem;
+        color: #374151;
+        line-height: 1.5;
+      }
+      .cd-enroll-wrap {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #f3f4f6;
+      }
+      .cd-enroll-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px 20px;
+        background: #4f46e5;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .cd-enroll-btn:hover { opacity: 0.88; }
+
+      /* PDF thumbnail overlay */
+      .pdf-thumb-wrapper {
+        position: relative;
+        cursor: pointer;
+        display: block;
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+      .pdf-thumb-wrapper .play-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .pdf-thumb-wrapper:hover .play-overlay { background: rgba(0,0,0,0.5); }
+      .pdf-thumb-wrapper .play-overlay svg { width: 64px; height: 64px; fill: white; opacity: 0.9; }
+
+      /* ---- Gallery ---- */
+      #gallery-lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: rgba(0,0,0,0.92);
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        animation: fadeIn 0.2s ease;
+      }
+      #gallery-lightbox.open { display: flex; }
+      #gallery-lightbox img {
+        max-width: 90vw;
+        max-height: 80vh;
+        object-fit: contain;
+        border-radius: 12px;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+        transition: transform 0.3s ease;
+        transform-origin: center center;
+        cursor: zoom-in;
+      }
+      #gallery-lightbox img.zoomed { transform: scale(1.9); cursor: zoom-out; }
+      .gallery-item {
+        overflow: hidden;
+        border-radius: 12px;
+        cursor: pointer;
+        position: relative;
+      }
+      .gallery-item img { transition: transform 0.4s ease; display: block; width: 100%; height: 100%; object-fit: cover; }
+      .gallery-item:hover img { transform: scale(1.07); }
+      .gallery-item .gallery-overlay {
+        position: absolute; inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%);
+        opacity: 0; transition: opacity 0.3s;
+        display: flex; align-items: flex-end; padding: 14px;
+      }
+      .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+      /* Highlighted keywords */
+      .curriculum-card { cursor: pointer; }
+
+      .highlight-keyword {
+        background: linear-gradient(120deg, #a5f3fc 0%, #6ee7b7 100%);
+        padding: 0 4px;
+        border-radius: 3px;
+        font-weight: 600;
+        color: #065f46;
+      }
     </style>
     <script>
-      // Configuration for Tailwind CSS
       tailwind.config = {
         theme: {
           extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
             colors: {
-              primary: '#4f46e5', // Indigo-600
-              secondary: '#10b981', // Emerald-500
-              accent: '#f59e0b', // Amber-500
-              violet: {
-                  500: '#8b5cf6',
-                  600: '#7c3aed',
-                  700: '#6d28d9',
-              },
-              lightbg: '#f3f4f6', // Gray-100
+              primary: '#4f46e5',
+              secondary: '#10b981',
+              accent: '#f59e0b',
+              violet: { 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9' },
+              lightbg: '#f3f4f6',
             }
           }
         }
       }
 
-      // DOMContentLoaded listener
+      // ---- Course Data ----
+      const courses = [
+        {
+          id: 'basics',
+          title: 'Bases de la Programmation',
+          age: 'Âges 8-10',
+          ageColor: 'bg-amber-100 text-amber-700',
+          img: 'photos/cs/1.png',
+          imgFallback: 'https://placehold.co/400x250/dbeafe/1e3a8a?text=Bases',
+          detailImg: 'photos/cs/1.png',
+          description: "Commencez votre voyage dans le codage ! Apprenez les concepts fondamentaux grâce à des jeux et des défis amusants. Ce cours introduit la logique de programmation, les boucles, les conditions et les variables à travers des activités interactives adaptées aux enfants de 8 à 10 ans.",
+          toc: [
+                "J'explore le monde de Scratch",
+		"Utiliser les 'Sprites'",
+		"Arrière-plans et mouvement des 'Sprites'",
+		"Costumes de lutin",
+		"Déplacer un 'Sprite' dans différentes directions",
+		"Utiliser le stylo",
+		"Commandes de contrôle des lutins et répétition",
+		"Variables",
+		"Utiliser l'instruction conditionnelle 'if'",
+		"Opérations arithmétiques, de comparaison et logiques",
+		"Application pratique",
+		"Effets"
+          ],
+          pdfThumb: 'photos/present/L1.png',
+          pdfLink: 'https://drive.google.com/file/d/1-2t_B_OEe8lTglOHOoKO-HMPUMFXcN5e/view',
+        },
+        {
+          id: 'ai',
+          title: 'Introduction à l\'IA',
+          age: 'Âges 9-15',
+          ageColor: 'bg-purple-100 text-purple-700',
+          img: 'photos/cs/2.png',
+          imgFallback: 'https://placehold.co/400x250/fef3c7/b45309?text=IA+Intro',
+          detailImg: 'photos/cs/2.png',
+          description: "Découvrez la puissance de l'Intelligence Artificielle. Explorez comment les machines apprennent et comment l'IA transforme notre monde. Ce cours couvre les concepts de base du machine learning, de la reconnaissance d'images et des assistants intelligents.",
+          toc: [
+        	"Commencer avec PictoBlox",
+		"Introduction à l'intelligence artificielle",
+		"Détection et reconnaissance faciale",
+		"Détection et reconnaissance d'objets",
+		"Détection du corps humain",
+		"Traitement du langage naturel (TLN)",
+		"Carte de reconnaissance",
+		"Environnement d'apprentissage automatique"
+          ],
+          pdfThumb: 'photos/present/L2.png',
+          pdfLink: 'https://drive.google.com/file/d/1FpNHJM2zIK9QyYXBWzUHRsyNtkOvw24c/view',
+        },
+        {
+          id: 'mobile',
+          title: 'Développement d\'Apps Mobiles',
+          age: 'Âges 12-18',
+          ageColor: 'bg-indigo-100 text-indigo-700',
+          img: 'photos/cs/3.png',
+          imgFallback: 'https://placehold.co/400x250/e0e7ff/3730a3?text=Apps+Mobiles',
+          detailImg: 'photos/cs/3.png',
+          description: "Créez vos propres applications ! Apprenez à concevoir et coder des applications pour smartphones et tablettes. De la maquette à la publication, ce cours guide les jeunes développeurs pas à pas dans la création d'apps mobiles professionnelles.",
+          toc: [
+          	"Introduction au développement d'applications mobiles",
+		"Logiciel Kodular",
+		"Créer des applications simples",
+		"Créer des applications avancées"
+          ],
+          pdfThumb: 'photos/present/L3.png',
+          pdfLink: 'https://drive.google.com/file/d/1WHD6r-8DdqL6-nPaZoULNWsev-ZbgUeC/view',
+        },
+        {
+          id: 'desktop',
+          title: 'Développement d\'Apps Bureau',
+          age: 'Âges 12-18',
+          ageColor: 'bg-emerald-100 text-emerald-700',
+          img: 'photos/cs/4.png',
+          imgFallback: 'https://placehold.co/400x250/d1fae5/047857?text=Apps+Bureau',
+          detailImg: 'photos/cs/4.png',
+          description: "Créez des applications incroyables pour ordinateurs. Plongez dans le développement de logiciels pour bureau et apprenez à construire des outils puissants utilisés au quotidien par des millions de personnes.",
+          toc: [
+                "Introduction à la programmation",
+		"Introduction au langage de programmation Python",
+		"Programmation orientée objet",
+		"Création d'applications de bureau"
+          ],
+          pdfThumb: 'photos/present/L4.png',
+          pdfLink: 'https://drive.google.com/file/d/1CxQnbYBxv-MUE1FSRuk-c9jyqvwdhipY/view',
+        },
+        {
+          id: 'genai',
+          title: 'IA Générative',
+          age: 'Âges 13-18',
+          ageColor: 'bg-pink-100 text-pink-700',
+          img: 'photos/cs/5.png',
+          imgFallback: 'https://placehold.co/400x250/fce7f3/9d174d?text=IA+Générative',
+          detailImg: 'photos/cs/5.png',
+          description: "Explorez la frontière de l'IA générative ! Apprenez à utiliser et comprendre les modèles de génération d'images, de texte et de code. Ce cours couvre les LLMs, les diffusion models, le prompt engineering et les applications créatives de l'IA générative.",
+          toc: [
+                "Introduction à l'intelligence artificielle générative",
+		"Comment intégrer l'IA générative dans mes études?",
+		"Comment utiliser l'IA générative pour réaliser des projets?"
+          ],
+          pdfThumb: 'photos/present/L5.png',
+          pdfLink: 'https://drive.google.com/file/d/12wN6_qYczBHyad0XoocT0gHnuCBFg8AJ/view',
+        },
+      ];
+
       document.addEventListener('DOMContentLoaded', () => {
 
-        // --- Intersection Observer Logic ---
+        // --- Intersection Observer ---
         const animatedElements = document.querySelectorAll('.scroll-animate');
         if ("IntersectionObserver" in window) {
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) { entry.target.classList.add('in-view'); }
-            });
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in-view'); } });
           }, { threshold: 0.1 });
-
           animatedElements.forEach(el => {
             observer.observe(el);
             if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.style.opacity = '0'; }
             else { el.style.opacity = '1'; }
           });
-
           const style = document.createElement('style');
           style.innerHTML = `
             .scroll-animate.in-view.animate-up { animation: fadeInUpSlight 0.7s ease-out forwards; }
             .scroll-animate.in-view.animate-left { animation: fadeInLeft 0.7s ease-out forwards; }
           `;
           document.head.appendChild(style);
-
         } else {
           animatedElements.forEach(el => { el.style.opacity = '1'; });
         }
 
-        // --- Sticky Header Logic ---
+        // --- Sticky Header ---
         const header = document.getElementById('main-header');
         const scrollWatcher = document.createElement('div');
         scrollWatcher.setAttribute('data-scroll-watcher', '');
         header.before(scrollWatcher);
-
         const navObserver = new IntersectionObserver((entries) => {
             const isSticky = !entries[0].isIntersecting;
             header.classList.toggle('bg-white/50', isSticky);
@@ -139,193 +567,646 @@
             header.classList.toggle('backdrop-blur-xl', isSticky);
             header.classList.toggle('py-4', !isSticky);
             header.classList.toggle('py-2', isSticky);
+            // Switch nav link colour: white on hero, gray when scrolled
+            document.querySelectorAll('.nav-link').forEach(a => {
+              if (isSticky) {
+                a.classList.remove('text-white');
+                a.classList.add('text-gray-600');
+              } else {
+                a.classList.remove('text-gray-600');
+                a.classList.add('text-white');
+              }
+            });
         }, {rootMargin: "50px 0px 0px 0px"});
         navObserver.observe(scrollWatcher);
 
-        // --- Mobile Menu Toggle ---
+        // --- Mobile Menu ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuIcon = document.getElementById('mobile-menu-icon'); // Get the icon span
-
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
         if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
-                // Toggle between menu (e9a7) and close (ea0f) icons using the font
                 mobileMenuIcon.innerHTML = mobileMenu.classList.contains('hidden') ? '&#xe9a7;' : '&#xea0f;';
             });
             mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.add('hidden');
-                    mobileMenuIcon.innerHTML = '&#xe9a7;'; // Reset to menu icon
+                    mobileMenuIcon.innerHTML = '&#xe9a7;';
                 });
             });
-        } else {
-            console.error("Mobile menu button, menu element, or icon span not found.");
         }
 
-        // --- REMOVED Simulated Contact Form Submission ---
-        // Form submission is now handled by Formspree via the action attribute.
+        // --- Course Card Click → Detail Page ---
+        document.querySelectorAll('.curriculum-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const courseId = card.dataset.courseId;
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+            showCourseDetail(course);
+          });
+        });
 
       });
+
+      function showCourseDetail(course) {
+        const page = document.getElementById('course-detail-page');
+
+        // Badge
+        const badge = document.getElementById('cd-age-badge');
+        badge.textContent = course.age;
+        badge.className = `cd-age-badge ${course.ageColor}`;
+
+        // Title (both hero and breadcrumb)
+        document.getElementById('cd-title').textContent = course.title;
+        document.getElementById('cd-title-breadcrumb').textContent = course.title;
+
+        // Description
+        document.getElementById('cd-description').textContent = course.description;
+
+        // Hero image
+        const heroImg = document.getElementById('cd-hero-img');
+        heroImg.src = course.detailImg || course.img;
+        heroImg.onerror = () => { heroImg.src = course.imgFallback; };
+
+        // Derive accent color from ageColor class for TOC bullets
+        const accentMap = {
+          'text-amber-700':  { bg: '#b45309', text: '#fff' },
+          'text-purple-700': { bg: '#7c3aed', text: '#fff' },
+          'text-indigo-700': { bg: '#4338ca', text: '#fff' },
+          'text-emerald-700':{ bg: '#047857', text: '#fff' },
+          'text-pink-700':   { bg: '#be185d', text: '#fff' },
+        };
+        const colorKey = Object.keys(accentMap).find(k => course.ageColor.includes(k));
+        const accent = accentMap[colorKey] || { bg: '#4f46e5', text: '#fff' };
+
+        // TOC header accent line
+        const tocHeader = document.getElementById('cd-toc-header');
+        tocHeader.style.borderLeftColor = accent.bg;
+
+        // TOC items with accent-colored numbers
+        const tocList = document.getElementById('cd-toc');
+        tocList.innerHTML = course.toc.map((item, i) =>
+          `<li class="cd-toc-item">
+            <span class="cd-toc-num" style="background:${accent.bg};color:${accent.text}">${i + 1}</span>
+            <span class="cd-toc-text">${item}</span>
+          </li>`
+        ).join('');
+
+        // PDF thumbnail
+        const pdfThumb = document.getElementById('cd-pdf-thumb');
+        pdfThumb.innerHTML = `
+          <a href="${course.pdfLink}" target="_blank" rel="noopener noreferrer" class="pdf-thumb-wrapper block aspect-video w-full">
+            <img src="${course.pdfThumb}" alt="Présentation PDF" class="w-full h-full object-cover rounded-xl">
+            <div class="play-overlay rounded-xl">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8" fill="none" stroke="white" stroke-width="2"/><line x1="16" y1="13" x2="8" y2="13" stroke="white" stroke-width="2"/><line x1="16" y1="17" x2="8" y2="17" stroke="white" stroke-width="2"/></svg>
+              <div class="absolute bottom-4 left-0 right-0 text-center text-white text-sm font-semibold drop-shadow">Cliquez pour voir la présentation PDF</div>
+            </div>
+          </a>`;
+
+        // Enroll button accent
+        document.querySelector('.cd-enroll-btn').style.background = accent.bg;
+
+        page.classList.add('active');
+        page.scrollTop = 0;
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCourseDetail() {
+        document.getElementById('course-detail-page').classList.remove('active');
+        document.body.style.overflow = '';
+      }
     </script>
 </head>
 <body class="bg-white font-sans antialiased text-gray-800 transition-colors duration-300">
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-primary hover:text-indigo-700 transition-colors"> CodeWay<span class="text-secondary">.</span> </a>
 
-            <div class="hidden md:flex items-center space-x-6">
-                <nav class="flex space-x-6">
-                    <a href="#hero" class="text-gray-600 hover:text-primary transition-colors font-medium">Home</a>
-                    <a href="#courses" class="text-gray-600 hover:text-primary transition-colors font-medium">Courses</a>
-                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors font-medium">About</a>
-                    <a href="#partners" class="text-gray-600 hover:text-primary transition-colors font-medium">Partners</a>
-                    <a href="#contact" class="text-gray-600 hover:text-primary transition-colors font-medium">Contact</a>
-                </nav>
-            </div>
+    <!-- ===================== COURSE DETAIL PAGE ===================== -->
+    <div id="course-detail-page">
+      <!-- Top navigation bar -->
+      <div class="cd-topbar">
+        <button onclick="closeCourseDetail()" class="cd-back-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Retour aux cours
+        </button>
+        <nav class="cd-breadcrumb">
+          <span>Accueil</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <span>Cours</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <span id="cd-title-breadcrumb" class="cd-breadcrumb-active"></span>
+        </nav>
+      </div>
 
-            <div class="md:hidden flex items-center space-x-2">
-                 <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none p-2">
-                     <span id="mobile-menu-icon" class="lucide-font">&#xe9a7;</span>
-                 </button>
+      <!-- Hero banner with image -->
+      <div class="cd-hero-banner">
+        <img id="cd-hero-img" src="" alt="" class="cd-hero-img">
+        <div class="cd-hero-overlay">
+          <div class="cd-hero-content">
+            <span id="cd-age-badge" class="cd-age-badge"></span>
+            <h1 id="cd-title" class="cd-course-title"></h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main body -->
+      <div class="cd-body">
+        <div class="cd-left">
+
+          <!-- Description card -->
+          <div class="cd-card">
+            <div class="cd-card-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              À propos du cours
             </div>
+            <p id="cd-description" class="cd-description-text"></p>
+          </div>
+
+          <!-- PDF presentation card -->
+          <div class="cd-card">
+            <div class="cd-card-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Présentation PDF
+            </div>
+            <div id="cd-pdf-thumb"></div>
+          </div>
+
         </div>
 
+        <!-- Right: Table of Contents -->
+        <div class="cd-right">
+          <div class="cd-toc-card">
+            <div class="cd-card-header" id="cd-toc-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Table des matières
+            </div>
+            <ol id="cd-toc" class="cd-toc-list"></ol>
+            <div class="cd-enroll-wrap">
+              <a href="#contact" onclick="closeCourseDetail()" class="cd-enroll-btn">
+                S'inscrire à ce cours
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ===================== END COURSE DETAIL PAGE ===================== -->
+
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-primary hover:text-indigo-700 transition-colors">CodeWay<span class="text-secondary">.AI</span></a>
+            <div class="hidden md:flex items-center space-x-6">
+                <nav class="flex space-x-6">
+                    <a href="#hero" class="nav-link text-white hover:text-primary transition-colors font-medium">Accueil</a>
+                    <a href="#courses" class="nav-link text-white hover:text-primary transition-colors font-medium">Cours</a>
+                    <a href="#about" class="nav-link text-white hover:text-primary transition-colors font-medium">À propos</a>
+                    <a href="#benefits" class="nav-link text-white hover:text-primary transition-colors font-medium">Bénéfices</a>
+                    <a href="#partners" class="nav-link text-white hover:text-primary transition-colors font-medium">Partenaires</a>
+                    <a href="#gallery" class="nav-link text-white hover:text-primary transition-colors font-medium">Galerie</a>
+                    <a href="#contact" class="nav-link text-white hover:text-primary transition-colors font-medium">Contact</a>
+                </nav>
+            </div>
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none p-2">
+                    <span id="mobile-menu-icon" class="lucide-font">&#xe9a7;</span>
+                </button>
+            </div>
+        </div>
         <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 border-t border-gray-200">
             <nav class="flex flex-col p-4 space-y-2">
-                <a href="#hero" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Home</a>
-                <a href="#courses" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Courses</a>
-                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">About</a>
-                <a href="#partners" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Partners</a>
+                <a href="#hero" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Accueil</a>
+                <a href="#courses" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Cours</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">À propos</a>
+                <a href="#benefits" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Bénéfices</a>
+                <a href="#partners" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Partenaires</a>
+                <a href="#gallery" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Galerie</a>
                 <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Contact</a>
             </nav>
         </div>
     </header>
 
+    <!-- ===================== PORTRAIT VIDEO WIDGET ===================== -->
+    <!-- Replace YOUR_DRIVE_FILE_ID with your Google Drive video file ID -->
+    <div id="portrait-video-widget">
+      <button class="widget-close" onclick="closeVideoWidget()" aria-label="Réduire la vidéo">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <iframe
+        id="portrait-video-iframe"
+        src="https://drive.google.com/file/d/12uxa6x7-MTKMdMcZ1GFejcNPCTidrZnl/preview"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        title="Vidéo CodeWay">
+      </iframe>
+    </div>
+    <!-- Toggle tab shown when widget is collapsed -->
+    <button id="video-toggle-tab" onclick="toggleVideoWidget()" aria-label="Afficher la vidéo">
+      ▶ Vidéo
+    </button>
+
     <main>
+        <!-- ===================== HERO — Image Background ===================== -->
         <section id="hero" class="relative pt-40 pb-28 md:pt-56 md:pb-40 overflow-hidden">
-            <div class="absolute inset-0 bg-black/40 z-0"></div>
+            <!-- Dark overlay -->
+            <div class="absolute inset-0 bg-black/55 z-0"></div>
             <div class="container mx-auto px-6 text-center relative z-10">
-                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-5 drop-shadow-lg">
-                     <span class="inline-block animate-fadeInLeft" style="animation-delay: 0.1s;">Unlock</span>
-                     <span class="inline-block animate-fadeInLeft" style="animation-delay: 0.2s;">Your</span>
-                     <span class="inline-block text-amber-300 animate-fadeInLeft" style="animation-delay: 0.3s;">Coding</span>
-                     <span class="inline-block animate-fadeInLeft" style="animation-delay: 0.4s;">Superpowers!</span>
-                 </h1>
-                 <p class="text-lg md:text-xl text-indigo-100 max-w-2xl mx-auto mb-10 animate-fadeInUp drop-shadow-md" style="animation-delay: 0.6s;">
-                     Join CodeWay and turn your imagination into reality. Learn programming and artificial intelligence through fun, hands-on projects designed for you!
-                 </p>
-                 <a href="#courses" class="inline-flex items-center justify-center bg-primary hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-xl animate-fadeInUp animate-pulse-button" style="animation-delay: 0.8s;">
-                     Explore Courses
-                     <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/arrow-right.svg" class="inline-block w-5 h-5 ml-2 filter invert" alt="Arrow Right"/>
-                 </a>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-5 drop-shadow-lg">
+                    <span class="inline-block animate-fadeInLeft" style="animation-delay: 0.1s;">Libère</span>
+                    <span class="inline-block animate-fadeInLeft" style="animation-delay: 0.2s;">Tes</span>
+                    <span class="inline-block text-amber-300 animate-fadeInLeft" style="animation-delay: 0.3s;">Superpouvoirs</span>
+                    <span class="inline-block animate-fadeInLeft" style="animation-delay: 0.4s;">de Codage !</span>
+                </h1>
+                <p class="text-lg md:text-xl text-indigo-100 max-w-2xl mx-auto mb-10 animate-fadeInUp drop-shadow-md" style="animation-delay: 0.6s;">
+                    Rejoins CodeWay.AI et transforme ton imagination en réalité. Apprends la programmation et l'intelligence artificielle à travers des projets amusants et pratiques conçus pour toi!
+                </p>
+                <a href="#courses" class="inline-flex items-center justify-center bg-primary hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-xl animate-fadeInUp animate-pulse-button" style="animation-delay: 0.8s;">
+                    Explorer les Cours
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/arrow-right.svg" class="inline-block w-5 h-5 ml-2 filter invert" alt="Flèche droite"/>
+                </a>
             </div>
         </section>
 
+        <!-- ===================== COURSES ===================== -->
         <section id="courses" class="py-16 md:py-24 bg-lightbg transition-colors duration-300">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16 scroll-animate animate-up"> Our Learning Adventures </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.1s;">
-                        <div class="card-img"><img src="rfl/img4/img3/3/1.png" alt="Programming Basics Visual" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/dbeafe/1e3a8a?text=Basics'"></div>
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16 scroll-animate animate-up">Nos Aventures d'Apprentissage</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+
+                    <!-- Card 1: Programming Basics -->
+                    <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.1s;" data-course-id="basics">
+                        <div class="card-img"><img src="photos/cs/1.png" alt="Bases de la Programmation" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/dbeafe/1e3a8a?text=Bases'"></div>
                         <div class="card-content p-6 flex-grow flex flex-col">
-                            <span class="age-tag inline-block bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Ages 8-10</span>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Programming Basics</h3>
-                            <p class="text-gray-600 text-sm flex-grow">Start your coding journey! Learn the fundamental concepts with fun games and challenges.</p>
+                            <span class="age-tag inline-block bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Âges 8-12</span>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Bases de la Programmation</h3>
+                            <p class="text-gray-600 text-sm flex-grow">Commence ton voyage dans le codage ! Apprends les concepts fondamentaux avec des jeux et défis amusants.</p>
                         </div>
                     </div>
-                     <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.2s;">
-                         <div class="card-img"><img src="rfl/img4/img3/3/2.png" alt="Introduction to AI Visual" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/fef3c7/b45309?text=AI+Intro'"></div>
-                         <div class="card-content p-6 flex-grow flex flex-col">
-                             <span class="age-tag inline-block bg-purple-100 text-purple-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Ages 9-15</span>
-                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Introduction to AI</h3>
-                             <p class="text-gray-600 text-sm flex-grow">Discover the power of Artificial Intelligence. Explore how machines learn!</p>
-                         </div>
-                     </div>
-                     <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.3s;">
-                         <div class="card-img"><img src="rfl/img4/img3/3/3.png" alt="Mobile App Development Visual" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/e0e7ff/3730a3?text=Mobile+Apps'"></div>
-                         <div class="card-content p-6 flex-grow flex flex-col">
-                             <span class="age-tag inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Ages 12-18</span>
-                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Mobile App Development</h3>
-                             <p class="text-gray-600 text-sm flex-grow">Build your own apps! Learn to design and code applications for smartphones and tablets.</p>
-                         </div>
-                     </div>
-                     <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.4s;">
-                         <div class="card-img"><img src="rfl/img4/img3/3/4.png" alt="Desktop App Development Visual" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/d1fae5/047857?text=Desktop+Apps'"></div>
-                         <div class="card-content p-6 flex-grow flex flex-col">
-                             <span class="age-tag inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Ages 12-18</span>
-                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Desktop App Development</h3>
-                             <p class="text-gray-600 text-sm flex-grow">Create amazing applications for computers. Dive into building software for desktops.</p>
-                         </div>
-                     </div>
+
+                    <!-- Card 2: AI -->
+                    <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.2s;" data-course-id="ai">
+                        <div class="card-img"><img src="photos/cs/2.png" alt="Introduction à l'IA" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/fef3c7/b45309?text=IA'"></div>
+                        <div class="card-content p-6 flex-grow flex flex-col">
+                            <span class="age-tag inline-block bg-purple-100 text-purple-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Âges 9-15</span>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Introduction à l'IA</h3>
+                            <p class="text-gray-600 text-sm flex-grow">Découvre la puissance de l'Intelligence Artificielle. Explore comment les machines apprennent !</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Mobile -->
+                    <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.3s;" data-course-id="mobile">
+                        <div class="card-img"><img src="photos/cs/3.png" alt="Apps Mobiles" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/e0e7ff/3730a3?text=Mobile'"></div>
+                        <div class="card-content p-6 flex-grow flex flex-col">
+                            <span class="age-tag inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Âges 13-14</span>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Développement d'Apps Mobiles</h3>
+                            <p class="text-gray-600 text-sm flex-grow">Construis tes propres apps ! Apprends à concevoir et coder pour smartphones et tablettes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Desktop -->
+                    <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.4s;" data-course-id="desktop">
+                        <div class="card-img"><img src="photos/cs/4.png" alt="Apps Bureau" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250/d1fae5/047857?text=Bureau'"></div>
+                        <div class="card-content p-6 flex-grow flex flex-col">
+                            <span class="age-tag inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Âges 13-18</span>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Développement d'Apps Bureau</h3>
+                            <p class="text-gray-600 text-sm flex-grow">Crée des applications incroyables pour ordinateurs. Plonge dans le développement de logiciels pour bureau.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Gen. AI (NEW) -->
+                    <div class="curriculum-card bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-all duration-300 transform hover:-translate-y-2 scroll-animate animate-up" style="animation-delay: 0.5s;" data-course-id="genai">
+                        <div class="card-img relative">
+                            <img src="photos/cs/5.png" alt="IA Générative" class="w-full h-40 object-cover">
+                            <span class="absolute top-2 right-2 bg-pink-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">NOUVEAU</span>
+                        </div>
+                        <div class="card-content p-6 flex-grow flex flex-col">
+                            <span class="age-tag inline-block bg-pink-100 text-pink-700 text-xs font-semibold px-2 py-0.5 rounded-full mb-3 self-start">Âges 13-18</span>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">IA Générative</h3>
+                            <p class="text-gray-600 text-sm flex-grow">Explore les LLMs, la génération d'images et le prompt engineering pour créer avec l'IA !</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
+        <!-- ===================== ABOUT ===================== -->
         <section id="about" class="py-16 md:py-24 bg-white transition-colors duration-300">
             <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12 md:gap-16">
                 <div class="md:w-1/2 scroll-animate animate-left order-2 md:order-1">
-                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Sparking Creativity, Code Your Way with CodeWay</h2>
-                     <p class="text-gray-700 mb-4 leading-relaxed">At CodeWay, we believe learning to code should be an exciting adventure! Our mission is to empower kids and teens with the skills they need to become creators, innovators, and problem-solvers in the artificial intelligence age.</p>
-                     <p class="text-gray-700 mb-6 leading-relaxed">We use project-based learning, making complex topics accessible and fun. From building simple games to exploring artificial intelligence, our curriculums grow with your child's abilities, fostering confidence and critical thinking.</p>
-                     <a href="#contact" class="text-primary hover:text-indigo-700 font-semibold group inline-flex items-center transition-colors duration-200">
-                         Learn More & Get Started
-                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/arrow-right.svg" class="inline-block w-5 h-5 ml-1 group-hover:translate-x-1 transition-transform duration-200 text-primary" alt="Arrow Right"/>
-                     </a>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Stimuler la Créativité, Coder à ta Façon avec CodeWay</h2>
+                    <p class="text-gray-700 mb-4 leading-relaxed">Chez CodeWay.AI, nous croyons que l'apprentissage du code doit être une aventure passionnante ! Notre mission est de donner aux enfants et aux adolescents les compétences dont ils ont besoin pour devenir des créateurs, des innovateurs et des résolveurs de problèmes à l'ère de l'intelligence artificielle.</p>
+                    <p class="text-gray-700 mb-6 leading-relaxed">Nous utilisons l'apprentissage par projet, rendant les sujets complexes accessibles et amusants. De la construction de jeux simples à l'exploration de l'intelligence artificielle, nos programmes évoluent avec les capacités de votre enfant, renforçant la confiance et la pensée critique.</p>
+                    <a href="#contact" class="text-primary hover:text-indigo-700 font-semibold group inline-flex items-center transition-colors duration-200">
+                        En Savoir Plus & Commencer
+                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/arrow-right.svg" class="inline-block w-5 h-5 ml-1 group-hover:translate-x-1 transition-transform duration-200" alt="→"/>
+                    </a>
                 </div>
                 <div class="md:w-1/2 scroll-animate animate-up order-1 md:order-2">
-                    <img src="rfl/img4/img3/4/about.png" alt="Illustration of kids collaborating on code" class="rounded-xl shadow-lg w-full h-auto object-cover" onerror="this.src='rfl/img4/img3/4/about.png'">
+                    <img src="photos/ud/about.png" alt="Illustration d'enfants collaborant sur du code" class="rounded-xl shadow-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/600x400/e0e7ff/3730a3?text=À+propos'">
                 </div>
             </div>
         </section>
 
-        <section id="partners" class="py-16 bg-gradient-to-r from-emerald-50 to-teal-50 transition-colors duration-300">
+        <!-- ===================== BENEFITS (Section 4 — NEW) ===================== -->
+        <section id="benefits" class="py-16 md:py-24 bg-gradient-to-br from-indigo-50 via-white to-emerald-50 transition-colors duration-300">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 scroll-animate animate-up">Our Partners</h2>
-                <div class="marquee-container">
-                    <div class="marquee-content">
-                        <img src="https://placehold.co/150x60/e0e7ff/4338ca?text=EduCorp" alt="Partner EduCorp Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/e0e7ff/4338ca?text=P1+Error'">
-                        <img src="https://placehold.co/150x60/d1fae5/047857?text=LearnInc" alt="Partner LearnInc Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/d1fae5/047857?text=P2+Error'">
-                        <img src="https://placehold.co/150x60/fef3c7/b45309?text=KidTech" alt="Partner KidTech Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/fef3c7/b45309?text=P3+Error'">
-                        <img src="https://placehold.co/150x60/fee2e2/991b1b?text=InnovateEd" alt="Partner InnovateEd Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/fee2e2/991b1b?text=P4+Error'">
-                        <img src="https://placehold.co/150x60/f3e8ff/6b21a8?text=SchoolSys" alt="Partner SchoolSys Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/f3e8ff/6b21a8?text=P5+Error'">
-                        <img src="https://placehold.co/150x60/e0f2fe/075985?text=FutureLabs" alt="Partner FutureLabs Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/e0f2fe/075985?text=P6+Error'">
-                        <img src="https://placehold.co/150x60/e0e7ff/4338ca?text=EduCorp" alt="Partner EduCorp Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/e0e7ff/4338ca?text=P1+Error'">
-                        <img src="https://placehold.co/150x60/d1fae5/047857?text=LearnInc" alt="Partner LearnInc Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/d1fae5/047857?text=P2+Error'">
-                        <img src="https://placehold.co/150x60/fef3c7/b45309?text=KidTech" alt="Partner KidTech Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/fef3c7/b45309?text=P3+Error'">
-                        <img src="https://placehold.co/150x60/fee2e2/991b1b?text=InnovateEd" alt="Partner InnovateEd Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/fee2e2/991b1b?text=P4+Error'">
-                        <img src="https://placehold.co/150x60/f3e8ff/6b21a8?text=SchoolSys" alt="Partner SchoolSys Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/f3e8ff/6b21a8?text=P5+Error'">
-                        <img src="https://placehold.co/150x60/e0f2fe/075985?text=FutureLabs" alt="Partner FutureLabs Logo" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/e0f2fe/075985?text=P6+Error'">
+                <div class="text-center mb-14 scroll-animate animate-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 relative inline-block">
+                        Les Bénéfices du Programme
+                        <span class="absolute bottom-0 left-1/4 w-1/2 h-1 bg-primary transform translate-y-2 rounded-full"></span>
+                    </h2>
+                    <p class="text-gray-600 mt-6 max-w-xl mx-auto">Découvrez comment CodeWay transforme l'avenir de vos enfants grâce à une approche unique et innovante.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+                    <!-- Left: Kid image -->
+                    <div class="md:w-5/12 scroll-animate animate-left flex-shrink-0">
+                        <div class="relative">
+                            <div class="absolute -inset-4 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl blur-xl"></div>
+                            <img
+                              src="photos/gallery/0.png"
+                              alt="Enfant apprenant à coder"
+                              class="relative rounded-3xl shadow-2xl w-full object-cover"
+                              onerror="this.src='https://placehold.co/520x600/e0e7ff/3730a3?text=Enfant+Codeur'"
+                            >
+                            <!-- Floating badge -->
+                            <div class="absolute -bottom-5 -right-5 bg-white rounded-2xl shadow-xl px-5 py-3 flex items-center gap-3">
+                                <span class="text-3xl">🏆</span>
+                                <div>
+                                    <div class="font-bold text-gray-900 text-sm">+1000 élèves</div>
+                                    <div class="text-gray-500 text-xs">formés avec succès</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Benefits description -->
+                    <div class="md:w-7/12 scroll-animate animate-up">
+                        <p class="text-gray-700 text-lg leading-relaxed mb-8">
+                            Notre programme CodeWay est conçu pour développer les compétences du <span class="highlight-keyword">21e siècle</span> chez les jeunes apprenants, en combinant
+                            <span class="highlight-keyword">créativité</span>, <span class="highlight-keyword">logique</span> et <span class="highlight-keyword">technologie</span>.
+                        </p>
+
+                        <div class="space-y-5">
+                            <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-2xl">🧠</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Développe la <span class="highlight-keyword">pensée computationnelle</span></h4>
+                                    <p class="text-gray-600 text-sm">Les élèves apprennent à décomposer des problèmes complexes, à identifier des schémas et à concevoir des solutions algorithmiques.</p>
+                                </div>
+                            </div>
+
+                            <!--<div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl">🤝</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Renforce la <span class="highlight-keyword">collaboration</span> et la communication</h4>
+                                    <p class="text-gray-600 text-sm">Les projets en équipe enseignent aux élèves à travailler ensemble, à partager des idées et à communiquer efficacement.</p>
+                                </div>
+                            </div>-->
+
+                            <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl">🚀</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Prépare aux <span class="highlight-keyword">métiers du futur</span></h4>
+                                    <p class="text-gray-600 text-sm">Avec des compétences en programmation et en IA, nos élèves sont prêts à exceller dans les industries technologiques de demain.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl">🎨</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-1">Stimule la <span class="highlight-keyword">créativité</span> et l'innovation</h4>
+                                    <p class="text-gray-600 text-sm">En transformant des idées en projets réels, les élèves développent leur <span class="highlight-keyword">confiance en soi</span> et leur esprit d'entrepreneur.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ===================== PARTNERS ===================== -->
+        <section id="partners" class="py-16 bg-gradient-to-r from-emerald-50 to-teal-50 transition-colors duration-300">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 scroll-animate animate-up">Nos Partenaires</h2>
+                <div class="marquee-container">
+                    <div class="marquee-content">
+                        <img src="https://placehold.co/150x60/e0e7ff/4338ca?text=EduCorp" alt="Partenaire EduCorp" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/e0e7ff/4338ca?text=P1'">
+                        <img src="https://placehold.co/150x60/d1fae5/047857?text=LearnInc" alt="Partenaire LearnInc" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/d1fae5/047857?text=P2'">
+                        <img src="https://placehold.co/150x60/fef3c7/b45309?text=KidTech" alt="Partenaire KidTech" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/fef3c7/b45309?text=P3'">
+                        <img src="https://placehold.co/150x60/fee2e2/991b1b?text=InnovateEd" alt="Partenaire InnovateEd" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/fee2e2/991b1b?text=P4'">
+                        <img src="https://placehold.co/150x60/f3e8ff/6b21a8?text=SchoolSys" alt="Partenaire SchoolSys" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/f3e8ff/6b21a8?text=P5'">
+                        <img src="https://placehold.co/150x60/e0f2fe/075985?text=FutureLabs" alt="Partenaire FutureLabs" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300" onerror="this.src='https://placehold.co/150x60/e0f2fe/075985?text=P6'">
+                        <!-- Duplicates for infinite scroll -->
+                        <img src="https://placehold.co/150x60/e0e7ff/4338ca?text=EduCorp" alt="Partenaire EduCorp" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                        <img src="https://placehold.co/150x60/d1fae5/047857?text=LearnInc" alt="Partenaire LearnInc" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                        <img src="https://placehold.co/150x60/fef3c7/b45309?text=KidTech" alt="Partenaire KidTech" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                        <img src="https://placehold.co/150x60/fee2e2/991b1b?text=InnovateEd" alt="Partenaire InnovateEd" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                        <img src="https://placehold.co/150x60/f3e8ff/6b21a8?text=SchoolSys" alt="Partenaire SchoolSys" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                        <img src="https://placehold.co/150x60/e0f2fe/075985?text=FutureLabs" alt="Partenaire FutureLabs" class="h-12 lg:h-14 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== GALLERY ===================== -->
+        <section id="gallery" class="py-16 md:py-24 bg-gray-900 transition-colors duration-300">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-14 scroll-animate animate-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 relative inline-block">
+                        Notre Galerie
+                        <span class="absolute bottom-0 left-1/4 w-1/2 h-1 bg-secondary transform translate-y-2 rounded-full"></span>
+                    </h2>
+                    <p class="text-gray-400 mt-6 max-w-xl mx-auto">Découvrez nos élèves en action — des moments de création, de collaboration et d'innovation.</p>
+                </div>
+
+                <!-- Masonry-style grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-auto">
+
+                    <!-- Large featured tile (spans 2 cols & 2 rows) -->
+                    <div class="gallery-item col-span-2 row-span-2 h-72 md:h-96 scroll-animate animate-up" style="animation-delay:0.05s" onclick="openLightbox(0)">
+                        <img src="photos/gallery/2.png" alt="Atelier Codage">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Cérémonie de remise des diplômes</span></div>
+                    </div>
+
+                    <div class="gallery-item h-44 md:h-48 scroll-animate animate-up" style="animation-delay:0.1s" onclick="openLightbox(1)">
+                        <img src="photos/gallery/1.png" alt="Projet IA">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Projet Scratch</span></div>
+                    </div>
+
+                    <div class="gallery-item h-44 md:h-48 scroll-animate animate-up" style="animation-delay:0.15s" onclick="openLightbox(2)">
+                        <img src="photos/gallery/8.jpg" alt="Hackathon Jeunes">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Hackathon Jeunes</span></div>
+                    </div>
+
+                    <div class="gallery-item h-44 md:h-48 scroll-animate animate-up" style="animation-delay:0.2s" onclick="openLightbox(3)">
+                        <img src="photos/gallery/9.jpg" alt="Remise des Diplômes">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Remise des Diplômes</span></div>
+                    </div>
+
+                    <div class="gallery-item h-44 md:h-48 scroll-animate animate-up" style="animation-delay:0.25s" onclick="openLightbox(4)">
+                        <img src="photos/gallery/2.jpg" alt="Cours App Mobile">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Cours App Mobile</span></div>
+                    </div>
+
+                    <div class="gallery-item h-44 md:h-48 scroll-animate animate-up" style="animation-delay:0.3s" onclick="openLightbox(5)">
+                        <img src="photos/gallery/10.png" alt="Expo Projets">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Expo Projets</span></div>
+                    </div>
+
+                    <!-- Wide tile (spans 2 cols) -->
+                    <div class="gallery-item col-span-2 h-44 md:h-52 scroll-animate animate-up" style="animation-delay:0.35s" onclick="openLightbox(6)">
+                        <img src="photos/gallery/0.png" alt="Équipe CodeWay">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Books</span></div>
+                    </div>
+
+                    <div class="gallery-item h-44 md:h-52 scroll-animate animate-up" style="animation-delay:0.4s" onclick="openLightbox(7)">
+                        <img src="photos/gallery/14.png" alt="Atelier Gen AI">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Atelier Gen AI</span></div>
+                    </div>
+
+                    <div class="gallery-item h-44 md:h-52 scroll-animate animate-up" style="animation-delay:0.45s" onclick="openLightbox(8)">
+                        <img src="photos/gallery/3.jpg" alt="Coding Club">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">UI/UX</span></div>
+                    </div>
+
+                    <!-- Two new images -->
+                    <div class="gallery-item h-44 md:h-52 scroll-animate animate-up" style="animation-delay:0.5s" onclick="openLightbox(9)">
+                        <img src="photos/gallery/7.jpg" alt="Démo Projets">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Démo Projets</span></div>
+                    </div>
+
+                    <div class="gallery-item col-span-2 h-44 md:h-52 scroll-animate animate-up" style="animation-delay:0.55s" onclick="openLightbox(10)">
+                        <img src="photos/gallery/12.png" alt="Atelier Robotique">
+                        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Fun</span></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== LIGHTBOX ===================== -->
+        <div id="gallery-lightbox" onclick="handleLightboxClick(event)">
+            <button onclick="closeLightbox()" class="absolute top-5 right-6 text-white text-4xl font-light leading-none hover:text-gray-300 transition-colors z-10" aria-label="Fermer">&times;</button>
+            <button onclick="prevImage()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-5xl font-light hover:text-gray-300 transition-colors z-10 px-3 select-none">&#8249;</button>
+            <button onclick="nextImage()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-5xl font-light hover:text-gray-300 transition-colors z-10 px-3 select-none">&#8250;</button>
+            <img id="lightbox-img" src="" alt="" onclick="toggleZoom(this)">
+            <div id="lightbox-caption" class="text-gray-300 text-sm mt-4 text-center"></div>
+            <div id="lightbox-hint" class="text-gray-500 text-xs mt-2">Cliquez sur l'image pour zoomer · Flèches pour naviguer · Échap pour fermer</div>
+            <div id="lightbox-counter" class="text-gray-500 text-xs mt-1"></div>
+        </div>
+
+        <script>
+          // ---- Gallery data — index matches onclick(N) on each tile exactly ----
+          const galleryItems = [
+            { src: 'photos/gallery/2.png',  caption: 'Cérémonie de remise des diplômes' },  // 0
+            { src: 'photos/gallery/1.png',  caption: 'Projet Scratch' },                     // 1
+            { src: 'photos/gallery/8.jpg',  caption: 'Hackathon Jeunes' },                   // 2
+            { src: 'photos/gallery/9.jpg',  caption: 'Remise des Diplômes' },                // 3
+            { src: 'photos/gallery/2.jpg',  caption: 'Cours App Mobile' },                   // 4
+            { src: 'photos/gallery/10.png', caption: 'Expo Projets' },                       // 5
+            { src: 'photos/gallery/0.png',  caption: 'Books' },                              // 6
+            { src: 'photos/gallery/14.png', caption: 'Atelier Gen AI' },                     // 7
+            { src: 'photos/gallery/3.jpg',  caption: 'UI/UX' },                              // 8
+            { src: 'photos/gallery/7.jpg',  caption: 'Démo Projets' },                       // 9
+            { src: 'photos/gallery/12.png', caption: 'Fun' },                                // 10
+          ];
+          let currentGalleryIndex = 0;
+
+          // Takes a numeric index directly — no string-matching bug
+          function openLightbox(index) {
+            currentGalleryIndex = index;
+            setLightboxImage(currentGalleryIndex);
+            document.getElementById('gallery-lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+          }
+
+          function setLightboxImage(idx) {
+            const item = galleryItems[idx];
+            const img = document.getElementById('lightbox-img');
+            img.classList.remove('zoomed');
+            img.src = item.src;
+            img.alt = item.caption;
+            document.getElementById('lightbox-caption').textContent = item.caption;
+            document.getElementById('lightbox-counter').textContent = `${idx + 1} / ${galleryItems.length}`;
+          }
+
+          function closeLightbox() {
+            document.getElementById('gallery-lightbox').classList.remove('open');
+            document.getElementById('lightbox-img').classList.remove('zoomed');
+            document.body.style.overflow = '';
+          }
+
+          function prevImage() {
+            currentGalleryIndex = (currentGalleryIndex - 1 + galleryItems.length) % galleryItems.length;
+            setLightboxImage(currentGalleryIndex);
+          }
+
+          function nextImage() {
+            currentGalleryIndex = (currentGalleryIndex + 1) % galleryItems.length;
+            setLightboxImage(currentGalleryIndex);
+          }
+
+          function toggleZoom(img) {
+            img.classList.toggle('zoomed');
+          }
+
+          function handleLightboxClick(e) {
+            if (e.target === document.getElementById('gallery-lightbox')) closeLightbox();
+          }
+
+          document.addEventListener('keydown', e => {
+            const lb = document.getElementById('gallery-lightbox');
+            if (!lb.classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+          });
+
+          // ---- Portrait video widget: toggle with pause/resume ----
+          const _videoIframeSrc = document.getElementById('portrait-video-iframe').src;
+          function toggleVideoWidget() {
+            const widget = document.getElementById('portrait-video-widget');
+            const tab = document.getElementById('video-toggle-tab');
+            const iframe = document.getElementById('portrait-video-iframe');
+            const isHidden = widget.classList.toggle('hidden-widget');
+            tab.classList.toggle('visible', isHidden);
+            if (isHidden) {
+              // Pause: clear src to stop playback
+              iframe.src = '';
+            } else {
+              // Resume: restore src
+              iframe.src = _videoIframeSrc;
+            }
+          }
+          function closeVideoWidget() { toggleVideoWidget(); }
+        </script>
+
+        <!-- ===================== CONTACT ===================== -->
         <section id="contact" class="py-16 md:py-24 transition-colors duration-300">
              <div class="absolute inset-0 z-0"></div>
              <div class="container mx-auto px-6 relative z-10">
                  <div class="text-center mb-12 md:mb-16 scroll-animate animate-up">
-                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3 relative inline-block"> Get In Touch
+                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3 relative inline-block">Contactez-Nous
                          <span class="absolute bottom-0 left-1/4 w-1/2 h-1 bg-violet-600 transform translate-y-2"></span>
                      </h2>
-                     <p class="text-gray-600 mt-4"> Let's discuss your project and bring your ideas to life </p>
+                     <p class="text-gray-600 mt-4">Discutons de votre projet et donnons vie à vos idées</p>
                  </div>
-
                  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
                      <div class="contact-info scroll-animate animate-left bg-black/5 p-6 sm:p-8 rounded-lg backdrop-blur-sm">
-                         <h3 class="text-2xl font-semibold mb-8 text-gray-900">Contact Information</h3>
+                         <h3 class="text-2xl font-semibold mb-8 text-gray-900">Informations de Contact</h3>
                          <div class="flex items-start mb-6">
                              <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white mr-4 flex-shrink-0">
-                                 <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/map-pin.svg" class="h-6 w-6 filter invert" alt="Location Pin"/>
+                                 <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/map-pin.svg" class="h-6 w-6 filter invert" alt="Localisation"/>
                              </span>
                              <div>
-                                 <h4 class="font-semibold text-lg mb-1 text-gray-900">Location</h4>
-                                 <p class="font-bold text-gray-900">Tariq St. Tabarbour, Amman, Jordan </p>
+                                 <h4 class="font-semibold text-lg mb-1 text-gray-900">Adresse</h4>
+                                 <p class="font-bold text-gray-900">Cité Douzi, Bab Ezzouar, Algeria, 16024</p>
                              </div>
                          </div>
                          <div class="flex items-start mb-6">
                               <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white mr-4 flex-shrink-0">
-                                  <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/mail.svg" class="h-6 w-6 filter invert" alt="Mail Icon"/>
+                                  <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/mail.svg" class="h-6 w-6 filter invert" alt="Email"/>
                               </span>
                               <div>
                                   <h4 class="font-semibold text-lg mb-1 text-gray-900">Email</h4>
@@ -334,39 +1215,38 @@
                          </div>
                          <div class="flex items-start">
                               <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white mr-4 flex-shrink-0">
-                                   <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/phone.svg" class="h-6 w-6 filter invert" alt="Phone Icon"/>
+                                   <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/phone.svg" class="h-6 w-6 filter invert" alt="Téléphone"/>
                               </span>
                               <div>
-                                  <h4 class="font-semibold text-lg mb-1 text-gray-900">Phone</h4>
-                                  <p class="font-bold text-gray-900">+213791982441 </p>
+                                  <h4 class="font-semibold text-lg mb-1 text-gray-900">Téléphone</h4>
+                                  <p class="font-bold text-gray-900">+213 791 982 441</p>
                               </div>
                          </div>
                      </div>
-
                      <div class="contact-form scroll-animate animate-up" style="animation-delay: 0.2s;">
                          <form id="contact-form" action="https://formspree.io/f/movekgvn" method="POST">
                              <div class="mb-4">
-                                 <label for="name" class="sr-only">Name</label>
-                                 <input type="text" id="name" name="name" placeholder="Your Name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500">
+                                 <label for="name" class="sr-only">Nom</label>
+                                 <input type="text" id="name" name="name" placeholder="Votre Nom" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500">
                              </div>
                              <div class="mb-4">
                                  <label for="email" class="sr-only">Email</label>
-                                 <input type="email" id="email" name="email" placeholder="Your Email Address" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500">
+                                 <input type="email" id="email" name="email" placeholder="Votre Adresse Email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500">
                              </div>
                              <div class="mb-4">
-                                 <label for="subject" class="sr-only">Subject</label>
-                                 <input type="text" id="subject" name="subject" placeholder="Subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500">
+                                 <label for="subject" class="sr-only">Sujet</label>
+                                 <input type="text" id="subject" name="subject" placeholder="Sujet" class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500">
                              </div>
                              <div class="mb-6">
                                  <label for="message" class="sr-only">Message</label>
-                                 <textarea id="message" name="message" rows="5" placeholder="Your Message" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500"></textarea>
+                                 <textarea id="message" name="message" rows="5" placeholder="Votre Message" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow shadow-sm placeholder-gray-500"></textarea>
                              </div>
                              <button type="submit" class="inline-flex items-center justify-center w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                                 Send Message
-                                 <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/send.svg" class="inline-block w-5 h-5 ml-1 filter invert" alt="Send Icon"/>
+                                 Envoyer le Message
+                                 <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/send.svg" class="inline-block w-5 h-5 ml-1 filter invert" alt="Envoyer"/>
                              </button>
                          </form>
-                         </div>
+                     </div>
                  </div>
              </div>
         </section>
@@ -375,13 +1255,15 @@
     <footer class="bg-gray-900 text-gray-400 py-10 transition-colors duration-300">
         <div class="container mx-auto px-6 text-center">
             <a href="#" class="text-xl font-bold text-white hover:text-gray-200 transition-colors mb-4 inline-block">
-                CodeWay<span class="text-secondary">.</span>
+                CodeWay<span class="text-secondary">.AI</span>
             </a>
             <nav class="flex justify-center flex-wrap gap-x-6 gap-y-2 mb-6">
-                <a href="#hero" class="hover:text-white transition-colors">Home</a>
-                <a href="#courses" class="hover:text-white transition-colors">Courses</a>
-                <a href="#about" class="hover:text-white transition-colors">About</a>
-                <a href="#partners" class="hover:text-white transition-colors">Partners</a>
+                <a href="#hero" class="hover:text-white transition-colors">Accueil</a>
+                <a href="#courses" class="hover:text-white transition-colors">Cours</a>
+                <a href="#about" class="hover:text-white transition-colors">À propos</a>
+                <a href="#benefits" class="hover:text-white transition-colors">Bénéfices</a>
+                <a href="#partners" class="hover:text-white transition-colors">Partenaires</a>
+                <a href="#gallery" class="hover:text-white transition-colors">Galerie</a>
                 <a href="#contact" class="hover:text-white transition-colors">Contact</a>
             </nav>
             <div class="flex justify-center space-x-4 mb-6">
@@ -395,10 +1277,27 @@
                      <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/linkedin.svg" class="h-5 w-5 filter invert" alt="LinkedIn"/>
                 </a>
             </div>
-            <p class="text-sm">&copy; 2025 CodeWay. Sparking Future Innovators.</p>
+            <p class="text-sm">&copy; 2026 CodeWay.AI Inspirons les Innovateurs de Demain.</p>
         </div>
     </footer>
 
+    <script>
+      // Sync breadcrumb title in detail page
+      const origShowCourseDetail = showCourseDetail;
+      document.addEventListener('DOMContentLoaded', () => {
+        // patch: update breadcrumb
+        document.querySelectorAll('.curriculum-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const courseId = card.dataset.courseId;
+            const course = courses.find(c => c.id === courseId);
+            if (course) {
+              const bc = document.getElementById('cd-title-breadcrumb');
+              if (bc) bc.textContent = course.title;
+            }
+          });
+        });
+      });
+    </script>
+
 </body>
 </html>
-
