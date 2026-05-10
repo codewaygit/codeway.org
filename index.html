@@ -59,33 +59,34 @@
         background-repeat: no-repeat;
       }
 
-      /* Portrait video widget — fixed bottom-left corner, true 9:16 */
+      /* Portrait video widget — centred on screen, true 9:16 */
       #portrait-video-widget {
         position: fixed;
-        bottom: 24px;
-        left: 24px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         z-index: 200;
-        width: 240px;
-        height: 427px; /* 240 × 16/9 = 426.7px — exact 9:16 */
+        /* Height drives size; width follows 9:16 ratio */
+        height: min(80vh, 640px);
+        width: calc(min(80vh, 640px) * 9 / 16);
         border-radius: 16px;
         overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+        box-shadow: 0 16px 64px rgba(0,0,0,0.65);
         background: #000;
         transition: opacity 0.4s ease, transform 0.4s ease;
       }
       #portrait-video-widget.hidden-widget {
         opacity: 0;
         pointer-events: none;
-        transform: translateY(30px) scale(0.95);
+        transform: translate(-50%, calc(-50% + 30px)) scale(0.95);
       }
-      /* Iframe oversized & shifted so Drive's video content centres in the portrait frame */
+      /* Iframe fills the widget exactly */
       #portrait-video-widget iframe {
         position: absolute;
-        top: 50%;
-        left: 50%;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 160%;           /* taller than widget to account for Drive's player chrome */
-        transform: translate(-50%, -50%);
+        height: 100%;
         border: none;
         display: block;
       }
@@ -787,7 +788,7 @@
 
     <!-- ===================== PORTRAIT VIDEO WIDGET ===================== -->
     <!-- Replace YOUR_DRIVE_FILE_ID with your Google Drive video file ID -->
-    <div id="portrait-video-widget">
+    <div id="portrait-video-widget" class="hidden-widget">
       <button class="widget-close" onclick="closeVideoWidget()" aria-label="Réduire la vidéo">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
@@ -800,7 +801,7 @@
       </iframe>
     </div>
     <!-- Toggle tab shown when widget is collapsed -->
-    <button id="video-toggle-tab" onclick="toggleVideoWidget()" aria-label="Afficher la vidéo">
+    <button id="video-toggle-tab" class="visible" onclick="toggleVideoWidget()" aria-label="Afficher la vidéo">
       ▶ Vidéo
     </button>
 
@@ -893,7 +894,7 @@
         <section id="about" class="py-16 md:py-24 bg-white transition-colors duration-300">
             <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12 md:gap-16">
                 <div class="md:w-1/2 scroll-animate animate-left order-2 md:order-1">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Stimuler la Créativité, Coder à ta Façon avec CodeWay.AI</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Stimuler la Créativité, Coder à ta Façon avec CodeWay</h2>
                     <p class="text-gray-700 mb-4 leading-relaxed">Chez CodeWay.AI, nous croyons que l'apprentissage du code doit être une aventure passionnante ! Notre mission est de donner aux enfants et aux adolescents les compétences dont ils ont besoin pour devenir des créateurs, des innovateurs et des résolveurs de problèmes à l'ère de l'intelligence artificielle.</p>
                     <p class="text-gray-700 mb-6 leading-relaxed">Nous utilisons l'apprentissage par projet, rendant les sujets complexes accessibles et amusants. De la construction de jeux simples à l'exploration de l'intelligence artificielle, nos programmes évoluent avec les capacités de votre enfant, renforçant la confiance et la pensée critique.</p>
                     <a href="#contact" class="text-primary hover:text-indigo-700 font-semibold group inline-flex items-center transition-colors duration-200">
@@ -943,7 +944,7 @@
                     <!-- Right: Benefits description -->
                     <div class="md:w-7/12 scroll-animate animate-up">
                         <p class="text-gray-700 text-lg leading-relaxed mb-8">
-                            Notre programme CodeWay.AI est conçu pour développer les compétences du <span class="highlight-keyword">21e siècle</span> chez les jeunes apprenants, en combinant
+                            Notre programme CodeWay est conçu pour développer les compétences du <span class="highlight-keyword">21e siècle</span> chez les jeunes apprenants, en combinant
                             <span class="highlight-keyword">créativité</span>, <span class="highlight-keyword">logique</span> et <span class="highlight-keyword">technologie</span>.
                         </p>
 
@@ -1165,6 +1166,8 @@
 
           // ---- Portrait video widget: toggle with pause/resume ----
           const _videoIframeSrc = document.getElementById('portrait-video-iframe').src;
+          // Widget starts hidden — clear iframe src so video doesn't play in background
+          document.getElementById('portrait-video-iframe').src = '';
           function toggleVideoWidget() {
             const widget = document.getElementById('portrait-video-widget');
             const tab = document.getElementById('video-toggle-tab');
